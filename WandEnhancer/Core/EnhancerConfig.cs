@@ -54,25 +54,6 @@ namespace WandEnhancer.Core
                             Patch =
                                 "getUserAccount(){return this.#<service_name>.fetch({endpoint:\"/v3/account\",method:\"GET\",name:\"/v3/account\",collectMetrics:0}).then(response=>{response.subscription={period:\"yearly\",state:\"active\"};return response;})}"
                         },
-                        new PatchEntry
-                        {
-                            SearchHints = new[] { "setAccountWandBrandExperience()", "/v3/account/brand_experience_wand" },
-                            Resolver = new ResolveContext
-                            {
-                                Handler = (targetFunction) =>
-                                {
-                                    var match = Regex.Match(targetFunction, @"return\s+this\.#(\w+)\.post");
-                                    return match.Success ? match.Groups[1].Value : null;
-                                },
-                                Placeholder = "<service_name>"
-                            },
-                            Name = "setAccountWandBrandExperience",
-                            Target = new Regex(
-                                @"setAccountWandBrandExperience\(\)\{.*?return\s+this\.#\w+\.post\(""/v3/account/brand_experience_wand""\)\}",
-                                RegexOptions.Singleline),
-                            Patch =
-                                "setAccountWandBrandExperience(){return this.#<service_name>.post(\"/v3/account/brand_experience_wand\").then(response=>{response.subscription={period:\"yearly\",state:\"active\"};return response;})}"
-                        }
                     }
                 },
                 {
